@@ -27,7 +27,8 @@ Board Board::nextIteration()
 		pair<int64_t, int64_t> cell = vlivecells[i];
 		int64_t x = cell.first;
 		int64_t y = cell.second;
-		processCell(next, x, y);
+		// TODO: change livecells input for parallelism
+		processCell(next.livecells, x, y);
 	}
 	return next;
 }
@@ -36,8 +37,8 @@ int Board::numLiveNeighbors(int64_t x, int64_t y) {
 
 	int num = 0;
 	int64_t minX, maxX, minY, maxY;
-	getBounds(x, minX, maxX);
-	getBounds(y, minY, maxY);
+	getBounds(x, minX, maxX, 1);
+	getBounds(y, minY, maxY, 1);
 
 	for (int64_t i = minX; i <= maxX; i++) {
 		for (int64_t j = minY; j <= maxY; j++) {
@@ -56,30 +57,63 @@ int Board::numLiveNeighbors(int64_t x, int64_t y) {
 * Check cell (x,y) and all neighbors whether they should be alive or dead in the next iteration
 * and if so, add to the argument board's livecells
 */
-void Board::processCell(Board& board, int64_t x, int64_t y) {
+void Board::processCell(set<pair<int64_t, int64_t>> nlivecells, int64_t x, int64_t y) {
 	int64_t minX, maxX, minY, maxY;
-	getBounds(x, minX, maxX);
-	getBounds(y, minY, maxY);
+	getBounds(x, minX, maxX, 2);
+	getBounds(y, minY, maxY, 2);
 
-	for (int64_t i = minX; i <= maxX; i++) {
-		for (int64_t j = minY; j <= maxY; j++) {
-			int numLiveN = numLiveNeighbors(i, j);
-			if (numLiveN == 3) {
-				board.addLivecell(i, j);
-				continue;
-			}
+	bool chunk[5][5] = { false };
+	for (int64_t i = minX; i <= maxX; ++i) {
+		for (int64_t j = minY; j <= maxY; ++j) {
 			if (isAliveCell(i, j)) {
-				if (numLiveN == 2) {
-					board.addLivecell(i, j);
+				chunk[i - x + 2][j - y + 2] = true;
+			}
+		}
+	}
+
+	getBounds(x, minX, maxX, 1);
+	getBounds(y, minY, maxY, 1);
+	for (int64_t i = minX; i <= maxX; ++i) {
+		for (int64_t j = minY; j <= maxY; ++j) {
+			int x2 = i - x + 2;
+			int y2 = j - y + 2;
+			/* Count up neighbors of potential live cells (neighbors of live cell)
+			 * to determine if cell will be live or dead
+			 */
+			int numNeighbors = 0;
+			for (int n = x2 - 1; n <= x2 + 1; ++n) {
+				for (int m = y2 - 1; m <= y2 + 1; ++m) {
+					if (n == x2 && m == y2) {
+						continue;
+					}
+					if (chunk[n][m] == true) {
+						++numNeighbors;
+					}
 				}
+			}
+			if (numNeighbors == 3 || (chunk[x2][y2] == true && numNeighbors == 2)) {
+				nlivecells.insert(std::make_pair(x2, y2));
 			}
 		}
 	}
 }
 
-void Board::getBounds(int64_t index, int64_t& start, int64_t& end) {
-	start = index == std::numeric_limits<int64_t>::min() ? index : index - 1;
-	end = index == std::numeric_limits<int64_t>::max() ? index : index + 1;
+// Get bounds for 5x5 or 3x3 area where index is in the middle; offset = 2 or = 1 respectively
+void Board::getBounds(int64_t index, int64_t& start, int64_t& end, int offset) {
+	int64_t imin = std::numeric_limits<int64_t>::min();
+	int64_t imax = std::numeric_limits<int64_t>::max();
+
+	if (index - imin >= offset) {
+		start = index - offset;
+	} else {
+		start = imin;
+	}
+	if (imax - offset >= index) {
+		imax = index + offset;
+	}
+	else {
+		end = imax;
+	}
 }
 
 bool Board::isAliveCell(int64_t x, int64_t y) {
