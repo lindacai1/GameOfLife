@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="GameOfLifeGUI">
+    </qresource>
+</RCC>
