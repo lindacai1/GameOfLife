@@ -1,6 +1,7 @@
 #include "testmethods.h"
 #include "board.h"
 #include "board_io.h"
+#include "binary_board_writer.h"
 #include <iostream>
 #include <string>
 #include <limits>
@@ -89,6 +90,15 @@ void testOutput1() {
 	assert(board1 == board2, "testOutput1 - output board != expected board");
 }
 
+void testBinaryBoardWrite1() {
+	std::ofstream output("IOFiles/binaryBoard1.txt");
+	BinaryBoardWriter bbw(output);
+	bbw.add(0, 1);
+	bbw.add(0, 2);
+	bbw.add(0, 3);
+	bbw.add(1, 1);
+}
+
 void testDiskAlgorithm1() {
 	makeLargeInputFile();
 }
@@ -126,7 +136,8 @@ void runAllTests() {
 	testOverflowBoundary1();
 	testInput1();
 	testOutput1();
-	testDiskAlgorithm1();
+	testBinaryBoardWrite1();
+	//testDiskAlgorithm1();
 }
 
 void runAllBenchmarks() {

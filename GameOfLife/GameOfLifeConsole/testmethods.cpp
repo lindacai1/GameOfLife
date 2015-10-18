@@ -42,18 +42,15 @@ Board makeLargeBoard() {
 
 void makeLargeInputFile() {
 	std::mt19937 randgen(0);
-	std::ofstream output("IOFiles/largeInput1.txt");
+	std::ofstream output("IOFiles/largeInput1.txt", std::ofstream::binary);
 	Board lboard;
 	for (int i = 0; i < 1000000; i++) {
 		lboard.addLivecell(randgen(), randgen());
 	}
-	for (auto& cell : lboard.livecells) {
-		output << cell.first << " " << cell.second << "\n";
-	}
+	output.close();
 }
 
-void printBoard(Board& board)
-{
+void printBoard(Board& board) {
 	for (const std::pair<int64_t, int64_t>& column : board.livecells) {
 		int64_t x = column.first;
 		int64_t y = column.second;

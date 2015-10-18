@@ -80,12 +80,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="binary_board_writer.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="board_io.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="binary_board_writer.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="board_io.cpp" />
     <ClCompile Include="GameOfLife.cpp" />
