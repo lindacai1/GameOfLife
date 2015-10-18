@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <chrono>
 
 void assert(bool b, std::string s = "") {
 	if (!b) {
@@ -11,7 +12,7 @@ void assert(bool b, std::string s = "") {
 	}
 }
 
-void testCorners1() {
+void testMiddle1() {
 	Board board1;
 	board1.addLivecell(0, 0);
 	board1.addLivecell(0, 1);
@@ -23,11 +24,35 @@ void testCorners1() {
 	board2.addLivecell(1, 0);
 	board2.addLivecell(1, 1);
 	assert(board1.nextIteration() == board2, "testCorners1 - next iteration != expected board");
-
 }
 
-void testCorners2() {
+// Upper left corner
+void testCorners1() {
+	int64_t imin = std::numeric_limits<int64_t>::min();
+	int64_t imax = std::numeric_limits<int64_t>::max();
 
+	Board board1;
+	board1.addLivecell(imin, imax);
+	board1.addLivecell(imin + 1, imax);
+	board1.addLivecell(imin, imax - 1);
+
+	Board board2 = board1.nextIteration();
+	board1.addLivecell(imin + 1, imax - 1);
+	assert(board1 == board2, "testCorners1");
+}
+
+// Upper right corner
+void testCorners2() {
+	int64_t imax = std::numeric_limits<int64_t>::max();
+
+	Board board1;
+	board1.addLivecell(imax, imax);
+	board1.addLivecell(imax, imax - 1);
+	board1.addLivecell(imax - 1, imax);
+
+	Board board2 = board1.nextIteration();
+	board1.addLivecell(imax - 1, imax - 1);
+	assert(board1 == board2, "testCorners2");
 }
 
 // Wrapping not implemented so test whether livecells overflow when reaching min/max boundary
@@ -64,10 +89,56 @@ void testOutput1() {
 	assert(board1 == board2, "testOutput1 - output board != expected board");
 }
 
+void testDiskAlgorithm1() {
+	makeLargeInputFile();
+}
+
+void benchmarkParallel() {
+	Board board = makeLargeBoard();
+	std::string s = "Next iteration using OpenMP... ";
+	std::cout << s;
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	board.nextIteration();
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>)(t2 - t1).count();
+	std::cout << duration << " milliseconds" << std::endl;
+	{std::ofstream output("IOFiles/parallelBenchmark.txt", std::ofstream::app);
+	output << s << duration << " milliseconds" << "\n"; }
+}
+
+void benchmarkSerial() {
+	Board board = makeLargeBoard();
+	std::string s = "Next iteration without OpenMP... ";
+	std::cout << s;
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	board.nextIterationSerial();
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>)(t2 - t1).count();
+	std::cout << duration << " milliseconds" << std::endl;
+	{std::ofstream output("IOFiles/serialBenchmark.txt", std::ofstream::app);
+	output << s << duration << " milliseconds" << "\n"; }
+}
+
 void runAllTests() {
+	testMiddle1();
 	testCorners1();
 	testCorners2();
 	testOverflowBoundary1();
 	testInput1();
 	testOutput1();
+	testDiskAlgorithm1();
+}
+
+void runAllBenchmarks() {
+	{std::ofstream output("IOFiles/serialBenchmark.txt");
+	output << "Starting serial benchmark test on Board with 4 million cells" << "\n"; }
+	for (int i = 0; i < 10; i++) {
+		benchmarkSerial();
+	}
+	{std::ofstream output("IOFiles/parallelBenchmark.txt");
+	output << "Starting parallel benchmark test on Board with 4 million cells" << "\n";
+	}
+	for (int i = 0; i < 10; i++) {
+		benchmarkParallel();
+	}
 }

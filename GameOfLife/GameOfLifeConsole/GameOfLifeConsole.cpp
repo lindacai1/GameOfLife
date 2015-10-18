@@ -4,12 +4,12 @@
 #include "stdafx.h"
 #include <iostream>
 #include "board.h"
-#include "runtests.h""
+#include "runtests.h"
 
-int _tmain(int argc, _TCHAR* argv[])
-{
+int _tmain(int argc, _TCHAR* argv[]) {
 
 	runAllTests();
+	//runAllBenchmarks();
 	return 0;
 }
 

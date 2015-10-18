@@ -3,4 +3,6 @@
 
 Board makeSample1();
 Board makeSample2();
+Board makeLargeBoard();
+void makeLargeInputFile();
 void printBoard(Board& board);

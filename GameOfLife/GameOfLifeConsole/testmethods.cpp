@@ -1,5 +1,8 @@
 #include "testmethods.h"
 #include <iostream>
+#include <istream>
+#include <fstream>
+#include <random>
 
 Board makeSample1() {
 	Board board;
@@ -26,6 +29,27 @@ Board makeSample2() {
 	board.addLivecell(-2000000000001, -2000000000000);
 	board.addLivecell(-2000000000000, -2000000000001);
 	return board;
+}
+
+Board makeLargeBoard() {
+	Board lboard;
+	std::mt19937 randgen(0);
+	for (int i = 0; i < 4000000; i++) {
+		lboard.addLivecell(randgen(), randgen());
+	}
+	return lboard;
+}
+
+void makeLargeInputFile() {
+	std::mt19937 randgen(0);
+	std::ofstream output("IOFiles/largeInput1.txt");
+	Board lboard;
+	for (int i = 0; i < 1000000; i++) {
+		lboard.addLivecell(randgen(), randgen());
+	}
+	for (auto& cell : lboard.livecells) {
+		output << cell.first << " " << cell.second << "\n";
+	}
 }
 
 void printBoard(Board& board)

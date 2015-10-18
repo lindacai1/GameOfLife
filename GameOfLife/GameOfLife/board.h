@@ -11,6 +11,7 @@ public:
 	std::set<std::pair<int64_t, int64_t>> livecells;
 	void addLivecell(int64_t x, int64_t y);
 	Board nextIteration();
+	Board nextIterationSerial();
 	int numLiveNeighbors(int64_t x, int64_t y);
 	void processCell(std::set<std::pair<int64_t, int64_t>>& nlivecells, int64_t x, int64_t y);
 	void getBounds(int64_t index, int64_t& start, int64_t& end, int offset);
