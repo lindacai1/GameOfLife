@@ -13,6 +13,19 @@ void assert(bool b, std::string s = "") {
 	}
 }
 
+void testBlinker() {
+	Board board1;
+	board1.addLivecell(0, 0);
+	board1.addLivecell(0, 1);
+	board1.addLivecell(0, 2);
+
+	Board board2;
+	board2.addLivecell(-1, 1);
+	board2.addLivecell(0, 1);
+	board2.addLivecell(1, 1);
+	assert(board1.nextIteration() == board2, "testBlinker - next iteration != expected board");
+}
+
 void testMiddle1() {
 	Board board1;
 	board1.addLivecell(0, 0);
@@ -82,25 +95,66 @@ void testInput1() {
 void testOutput1() {
 	Board board1 = makeSample1().nextIteration();
 	assert(board1 == makeSample2(), "testOutput1 - next iteration != expected board");
-	{std::ofstream output("IOFiles/output1.txt");
-	BoardIO::write(board1, output); }
+	{
+		std::ofstream output("IOFiles/output1.txt");
+		BoardIO::write(board1, output); 
+	}
 	Board board2;
-	{std::ifstream input("IOFiles/output1.txt");
-	board2 = BoardIO::read(input); }
+	{
+		std::ifstream input("IOFiles/output1.txt");
+		board2 = BoardIO::read(input); 
+	}
 	assert(board1 == board2, "testOutput1 - output board != expected board");
 }
 
 void testBinaryBoardWrite1() {
-	std::ofstream output("IOFiles/binaryBoard1.txt");
-	BinaryBoardWriter bbw(output);
-	bbw.add(0, 1);
-	bbw.add(0, 2);
-	bbw.add(0, 3);
-	bbw.add(1, 1);
+	{
+		std::ofstream output("IOFiles/binaryBoard1.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(0, 1);
+		bbw.add(0, 2);
+		bbw.add(0, 3);
+		bbw.add(1, 1); 
+	}
+
+	std::ifstream input("IOFiles/binaryBoard1.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	std::vector<int64_t> v = {0, 3, 1, 2, 3, 1, 1, 1};
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testBinaryBoardWrite1");
+}
+
+void testBinaryBoardWrite2() {
+	{
+		std::ofstream output("IOFiles/binaryBoard2.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(0, 1);
+	}
+
+	std::ifstream input("IOFiles/binaryBoard2.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	std::vector<int64_t> v = { 0, 1, 1 };
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testBinaryBoardWrite2");
+}
+
+void testBinaryBoardWrite3() {
+	{
+		std::ofstream output("IOFiles/binaryBoard2.bin", std::ofstream::binary);
+	}
+
+	std::ifstream input("IOFiles/binaryBoard2.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	std::vector<int64_t> v;
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testBinaryBoardWrite3 - should be empty");
 }
 
 void testDiskAlgorithm1() {
-	makeLargeInputFile();
+	makeLargeBinaryFile();
 }
 
 void benchmarkParallel() {
@@ -112,8 +166,10 @@ void benchmarkParallel() {
 	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 	auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>)(t2 - t1).count();
 	std::cout << duration << " milliseconds" << std::endl;
-	{std::ofstream output("IOFiles/parallelBenchmark.txt", std::ofstream::app);
-	output << s << duration << " milliseconds" << "\n"; }
+	{
+		std::ofstream output("IOFiles/parallelBenchmark.txt", std::ofstream::app);
+		output << s << duration << " milliseconds" << "\n"; 
+	}
 }
 
 void benchmarkSerial() {
@@ -125,11 +181,14 @@ void benchmarkSerial() {
 	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 	auto duration = (std::chrono::duration_cast<std::chrono::milliseconds>)(t2 - t1).count();
 	std::cout << duration << " milliseconds" << std::endl;
-	{std::ofstream output("IOFiles/serialBenchmark.txt", std::ofstream::app);
-	output << s << duration << " milliseconds" << "\n"; }
+	{
+		std::ofstream output("IOFiles/serialBenchmark.txt", std::ofstream::app);
+		output << s << duration << " milliseconds" << "\n"; 
+	}
 }
 
 void runAllTests() {
+	testBlinker();
 	testMiddle1();
 	testCorners1();
 	testCorners2();
@@ -137,6 +196,7 @@ void runAllTests() {
 	testInput1();
 	testOutput1();
 	testBinaryBoardWrite1();
+	testBinaryBoardWrite2();
 	//testDiskAlgorithm1();
 }
 

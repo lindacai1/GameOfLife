@@ -1,4 +1,4 @@
-#include "binary_board_writer.h";
+#include "binary_board_writer.h"
 
 /* 
  * Write live cells in binary file where each segment is of the
@@ -40,36 +40,3 @@ void BinaryBoardWriter::finishSegment() {
 	out.seekp(curPos);
 	len = 0;
 }
-
-
-//void temporary_function() {
-//	bool isFirst = true;
-//	int64_t curx = -1;
-//	int64_t length = 0;
-//	int64_t len_pos = -1;
-//	for (auto& cell : lboard.livecells) {
-//		// If done writing y values for curx, rewrite the length field and begin new segment
-//		if (!isFirst && cell.first != curx) {
-//			int64_t cur_pos = output.tellp();
-//			output.seekp(len_pos);
-//			output.write(reinterpret_cast<const char*> (length), sizeof(int64_t));
-//			output.seekp(cur_pos);
-//			isFirst = true;
-//			length = 0;
-//		}
-//		if (isFirst) {
-//			curx = cell.first;
-//			// Write x field, length field (keep position so we can write final value later), and y value
-//			output.write(reinterpret_cast<const char*> (&cell.first), sizeof(cell.first));
-//			len_pos = output.tellp();
-//			output.write(reinterpret_cast<const char*> (0), sizeof(int64_t));
-//			output.write(reinterpret_cast<const char*> (&cell.second), sizeof(cell.second));
-//			++length;
-//			isFirst = false;
-//			// Continue writing y values
-//		} else if (cell.first == curx) {
-//			output.write(reinterpret_cast<const char*> (&cell.second), sizeof(cell.second));
-//			++length;
-//		}
-//	}
-//}

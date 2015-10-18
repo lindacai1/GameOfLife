@@ -117,7 +117,7 @@ void Board::processCell(set<pair<int64_t, int64_t>>& nlivecells, int64_t x, int6
 	}
 }
 
-// Get bounds for 5x5 or 3x3 area where index is in the middle; offset = 2 or = 1 respectively
+// Get bounds for 5x5 or 3x3 area where index is in the center; offset = 2 or = 1 respectively
 void Board::getBounds(int64_t index, int64_t& start, int64_t& end, int offset) {
 	int64_t imin = std::numeric_limits<int64_t>::min();
 	int64_t imax = std::numeric_limits<int64_t>::max();
