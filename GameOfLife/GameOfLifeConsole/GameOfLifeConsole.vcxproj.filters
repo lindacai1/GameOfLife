@@ -24,10 +24,10 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="runtests.h">
+    <ClInclude Include="test_methods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="testmethods.h">
+    <ClInclude Include="run_tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="runtests.cpp">
+    <ClCompile Include="game_of_life_console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="testmethods.cpp">
+    <ClCompile Include="test_methods.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameOfLifeConsole.cpp">
+    <ClCompile Include="run_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

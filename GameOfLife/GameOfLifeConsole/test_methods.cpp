@@ -1,4 +1,4 @@
-#include "testmethods.h"
+#include "test_methods.h"
 #include "binary_board_writer.h"
 #include <iostream>
 #include <istream>

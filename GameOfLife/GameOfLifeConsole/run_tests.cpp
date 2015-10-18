@@ -1,4 +1,4 @@
-#include "testmethods.h"
+#include "test_methods.h"
 #include "board.h"
 #include "board_io.h"
 #include "binary_board_writer.h"
@@ -9,7 +9,7 @@
 
 void assert(bool b, std::string s = "") {
 	if (!b) {
-		std::cout << "FAIL: " << s << std::endl;
+		std::cout << "TEST FAILED: " << s << std::endl;
 	}
 }
 
@@ -197,9 +197,11 @@ void runAllTests() {
 	testOutput1();
 	testBinaryBoardWrite1();
 	testBinaryBoardWrite2();
+	testBinaryBoardWrite3();
 	//testDiskAlgorithm1();
 }
 
+// TODO: Make benchmark where cells are 3 in a row and not just random so that there are live cells to insert
 void runAllBenchmarks() {
 	{std::ofstream output("IOFiles/serialBenchmark.txt");
 	output << "Starting serial benchmark test on Board with 4 million cells" << "\n"; }

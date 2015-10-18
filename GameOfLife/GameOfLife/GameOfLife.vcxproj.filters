@@ -33,6 +33,9 @@
     <ClInclude Include="binary_board_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="disk_board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -44,10 +47,13 @@
     <ClCompile Include="board_io.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameOfLife.cpp">
+    <ClCompile Include="binary_board_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="binary_board_writer.cpp">
+    <ClCompile Include="disk_board.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_of_life.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

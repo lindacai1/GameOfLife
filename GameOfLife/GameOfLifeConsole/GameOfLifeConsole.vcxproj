@@ -84,16 +84,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="runtests.h" />
+    <ClInclude Include="run_tests.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="testmethods.h" />
+    <ClInclude Include="test_methods.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameOfLifeConsole.cpp" />
-    <ClCompile Include="runtests.cpp" />
+    <ClCompile Include="game_of_life_console.cpp" />
+    <ClCompile Include="run_tests.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="testmethods.cpp" />
+    <ClCompile Include="test_methods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameOfLife\GameOfLife.vcxproj">
