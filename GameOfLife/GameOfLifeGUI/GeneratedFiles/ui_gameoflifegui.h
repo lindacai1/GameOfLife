@@ -66,6 +66,7 @@ public:
         retranslateUi(GameOfLifeGUIClass);
         QObject::connect(startButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_startButton_clicked()));
         QObject::connect(stopButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_stopButton_clicked()));
+        QObject::connect(label, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_label_clicked()));
 
         QMetaObject::connectSlotsByName(GameOfLifeGUIClass);
     } // setupUi

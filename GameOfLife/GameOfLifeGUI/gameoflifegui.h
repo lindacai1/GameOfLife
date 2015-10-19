@@ -16,10 +16,12 @@ private:
 	Ui::GameOfLifeGUIClass ui;
 	QImage boardImage;
 	QPixmap pixmap;
+	QImage newBoardImage();
 
 private slots:
 	void on_startButton_clicked();
 	void on_stopButton_clicked();
+	void on_label_clicked();
 };
 
 #endif // GAMEOFLIFEGUI_H

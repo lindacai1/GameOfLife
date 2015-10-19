@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameOfLifeConsole", "GameOfLifeConsole\GameOfLifeConsole.vcxproj", "{A85527E9-5393-4901-AF61-80BD30C526C2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameOfLifeGUI", "GameOfLifeGUI\GameOfLifeGUI.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{15F198A3-4B4A-43D9-BD6E-C10E591F0415} = {15F198A3-4B4A-43D9-BD6E-C10E591F0415}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

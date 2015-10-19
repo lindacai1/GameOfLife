@@ -1,3 +1,5 @@
+#pragma once
+
 #include "binary_board_writer.h"
 #include <istream>
 #include <memory>

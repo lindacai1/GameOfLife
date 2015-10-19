@@ -111,10 +111,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>label</sender>
+   <signal>clicked()</signal>
+   <receiver>GameOfLifeGUIClass</receiver>
+   <slot>on_label_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>334</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>825</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_startButton_clicked()</slot>
   <slot>on_stopButton_clicked()</slot>
-  <slot>on_boardView_clicked()</slot>
+  <slot>on_label_clicked()</slot>
  </slots>
 </ui>
