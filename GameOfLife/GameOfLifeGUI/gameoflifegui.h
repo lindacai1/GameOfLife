@@ -14,6 +14,12 @@ public:
 
 private:
 	Ui::GameOfLifeGUIClass ui;
+	QImage boardImage;
+	QPixmap pixmap;
+
+private slots:
+	void on_startButton_clicked();
+	void on_stopButton_clicked();
 };
 
 #endif // GAMEOFLIFEGUI_H

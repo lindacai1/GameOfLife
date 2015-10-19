@@ -155,16 +155,20 @@ void testBinaryBoardWrite3() {
 }
 
 void testDiskAlgorithm1() {
-	//{
-	//	std::ofstream output("IOFiles/binaryBoard4.bin", std::ofstream::binary);
-	//	BinaryBoardWriter bbw(output);
-	//	bbw.add(0, 1);
-	//	bbw.add(0, 2);
-	//	bbw.add(0, 3);
-	//	bbw.add(1, 1);
-	//}
-	//std::ifstream input("IOFiles/binaryBoard4.bin", std::ifstream::binary);
-	//DiskBoard db((std::istream)input);
+	int64_t imin = std::numeric_limits<int64_t>::min();
+	int64_t imax = std::numeric_limits<int64_t>::max();
+	
+	{
+		std::ofstream output("IOFiles/binaryBoard4.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(0, 1);
+		bbw.add(0, 2);
+		bbw.add(0, 3);
+		bbw.add(1, 1);
+	}
+	/*std::ifstream input("IOFiles/binaryBoard4.bin", std::ifstream::binary);*/
+	//auto& s = std::make_unique<std::istream>("IOFiles/binaryBoard4.bin", std::istream::binary);
+	//DiskBoard db(s);
 
 }
 
