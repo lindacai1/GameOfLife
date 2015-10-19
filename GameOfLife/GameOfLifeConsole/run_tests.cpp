@@ -2,6 +2,7 @@
 #include "board.h"
 #include "board_io.h"
 #include "binary_board_writer.h"
+#include "disk_board.h"
 #include <iostream>
 #include <string>
 #include <limits>
@@ -142,10 +143,10 @@ void testBinaryBoardWrite2() {
 
 void testBinaryBoardWrite3() {
 	{
-		std::ofstream output("IOFiles/binaryBoard2.bin", std::ofstream::binary);
+		std::ofstream output("IOFiles/binaryBoard3.bin", std::ofstream::binary);
 	}
 
-	std::ifstream input("IOFiles/binaryBoard2.bin", std::ifstream::binary);
+	std::ifstream input("IOFiles/binaryBoard3.bin", std::ifstream::binary);
 	std::string sIn = readBinaryBoard(input);
 	std::vector<int64_t> v;
 	std::string sExpected = encode(v);
@@ -154,11 +155,20 @@ void testBinaryBoardWrite3() {
 }
 
 void testDiskAlgorithm1() {
-	makeLargeBinaryFile();
+	//{
+	//	std::ofstream output("IOFiles/binaryBoard4.bin", std::ofstream::binary);
+	//	BinaryBoardWriter bbw(output);
+	//	bbw.add(0, 1);
+	//	bbw.add(0, 2);
+	//	bbw.add(0, 3);
+	//	bbw.add(1, 1);
+	//}
+	//std::ifstream input("IOFiles/binaryBoard4.bin", std::ifstream::binary);
+	//DiskBoard db((std::istream)input);
+
 }
 
-void benchmarkParallel() {
-	Board board = makeLargeBoard();
+void benchmarkParallel(Board& board) {
 	std::string s = "Next iteration using OpenMP... ";
 	std::cout << s;
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -172,8 +182,7 @@ void benchmarkParallel() {
 	}
 }
 
-void benchmarkSerial() {
-	Board board = makeLargeBoard();
+void benchmarkSerial(Board& board) {
 	std::string s = "Next iteration without OpenMP... ";
 	std::cout << s;
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -201,17 +210,36 @@ void runAllTests() {
 	//testDiskAlgorithm1();
 }
 
-// TODO: Make benchmark where cells are 3 in a row and not just random so that there are live cells to insert
 void runAllBenchmarks() {
-	{std::ofstream output("IOFiles/serialBenchmark.txt");
-	output << "Starting serial benchmark test on Board with 4 million cells" << "\n"; }
-	for (int i = 0; i < 10; i++) {
-		benchmarkSerial();
-	}
-	{std::ofstream output("IOFiles/parallelBenchmark.txt");
-	output << "Starting parallel benchmark test on Board with 4 million cells" << "\n";
+	Board rBoard = makeLargeRandomBoard();
+	Board aBoard = makeLargeAdjacentBoard();
+	{
+		std::ofstream output2("IOFiles/parallelBenchmark.txt");
+		output2 << "Starting parallel benchmark test on Board with 4 million randomly selected cells" << "\n";
 	}
 	for (int i = 0; i < 10; i++) {
-		benchmarkParallel();
+		benchmarkParallel(rBoard);
 	}
+	{
+		std::ofstream output2("IOFiles/parallelBenchmark.txt", std::ofstream::app);
+		output2 << "Starting parallel benchmark test on Board with 4 million adjacent cells" << "\n";
+	}
+	for (int i = 0; i < 10; i++) {
+		benchmarkParallel(aBoard);
+	}
+	{
+		std::ofstream output1("IOFiles/serialBenchmark.txt");
+		output1 << "Starting serial benchmark test on Board with 4 million randomly selected cells" << "\n";
+	}
+	for (int i = 0; i < 10; i++) {
+		benchmarkSerial(rBoard);
+	}
+	{
+		std::ofstream output1("IOFiles/serialBenchmark.txt", std::ofstream::app);
+		output1 << "Starting serial benchmark test on Board with 4 million adjacent cells" << "\n";
+	}
+	for (int i = 0; i < 10; i++) {
+		benchmarkSerial(aBoard);
+	}
+
 }

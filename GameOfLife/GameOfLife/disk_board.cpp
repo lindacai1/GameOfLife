@@ -4,8 +4,6 @@ using std::unique_ptr;
 using std::istream;
 using std::iostream;
 
-//unique_ptr<istream> livecells;
-
 struct ColumnInfo {
 	int64_t x;
 	int64_t startPos;

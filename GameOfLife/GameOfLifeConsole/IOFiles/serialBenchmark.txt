@@ -1,11 +1,22 @@
-Starting serial benchmark test on Board with 4 million cells
-Next iteration without OpenMP... 8712 milliseconds
-Next iteration without OpenMP... 8597 milliseconds
-Next iteration without OpenMP... 8648 milliseconds
-Next iteration without OpenMP... 8569 milliseconds
-Next iteration without OpenMP... 8562 milliseconds
-Next iteration without OpenMP... 8596 milliseconds
-Next iteration without OpenMP... 8548 milliseconds
-Next iteration without OpenMP... 8545 milliseconds
-Next iteration without OpenMP... 8544 milliseconds
-Next iteration without OpenMP... 8535 milliseconds
+Starting serial benchmark test on Board with 4 million randomly selected cells
+Next iteration without OpenMP... 10844 milliseconds
+Next iteration without OpenMP... 10835 milliseconds
+Next iteration without OpenMP... 10760 milliseconds
+Next iteration without OpenMP... 10779 milliseconds
+Next iteration without OpenMP... 10804 milliseconds
+Next iteration without OpenMP... 10836 milliseconds
+Next iteration without OpenMP... 10806 milliseconds
+Next iteration without OpenMP... 10761 milliseconds
+Next iteration without OpenMP... 10796 milliseconds
+Next iteration without OpenMP... 10739 milliseconds
+Starting serial benchmark test on Board with 4 million adjacent cells
+Next iteration without OpenMP... 18829 milliseconds
+Next iteration without OpenMP... 19401 milliseconds
+Next iteration without OpenMP... 18433 milliseconds
+Next iteration without OpenMP... 18315 milliseconds
+Next iteration without OpenMP... 18122 milliseconds
+Next iteration without OpenMP... 18114 milliseconds
+Next iteration without OpenMP... 18123 milliseconds
+Next iteration without OpenMP... 18220 milliseconds
+Next iteration without OpenMP... 18221 milliseconds
+Next iteration without OpenMP... 18089 milliseconds

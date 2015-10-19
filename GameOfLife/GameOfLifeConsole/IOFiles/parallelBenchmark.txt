@@ -1,11 +1,22 @@
-Starting parallel benchmark test on Board with 4 million cells
-Next iteration using OpenMP... 2392 milliseconds
-Next iteration using OpenMP... 2336 milliseconds
-Next iteration using OpenMP... 2356 milliseconds
-Next iteration using OpenMP... 2388 milliseconds
-Next iteration using OpenMP... 2368 milliseconds
-Next iteration using OpenMP... 2376 milliseconds
-Next iteration using OpenMP... 2341 milliseconds
-Next iteration using OpenMP... 2391 milliseconds
-Next iteration using OpenMP... 2375 milliseconds
-Next iteration using OpenMP... 2406 milliseconds
+Starting parallel benchmark test on Board with 4 million randomly selected cells
+Next iteration using OpenMP... 2679 milliseconds
+Next iteration using OpenMP... 2765 milliseconds
+Next iteration using OpenMP... 2731 milliseconds
+Next iteration using OpenMP... 2705 milliseconds
+Next iteration using OpenMP... 2723 milliseconds
+Next iteration using OpenMP... 2649 milliseconds
+Next iteration using OpenMP... 2722 milliseconds
+Next iteration using OpenMP... 2672 milliseconds
+Next iteration using OpenMP... 2787 milliseconds
+Next iteration using OpenMP... 2732 milliseconds
+Starting parallel benchmark test on Board with 4 million adjacent cells
+Next iteration using OpenMP... 8323 milliseconds
+Next iteration using OpenMP... 8280 milliseconds
+Next iteration using OpenMP... 8320 milliseconds
+Next iteration using OpenMP... 8400 milliseconds
+Next iteration using OpenMP... 8267 milliseconds
+Next iteration using OpenMP... 8284 milliseconds
+Next iteration using OpenMP... 8278 milliseconds
+Next iteration using OpenMP... 8232 milliseconds
+Next iteration using OpenMP... 8119 milliseconds
+Next iteration using OpenMP... 8333 milliseconds

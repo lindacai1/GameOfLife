@@ -32,11 +32,24 @@ Board makeSample2() {
 	return board;
 }
 
-Board makeLargeBoard() {
+Board makeLargeRandomBoard() {
 	Board lboard;
 	std::mt19937 randgen(0);
 	for (int i = 0; i < 4000000; i++) {
 		lboard.addLivecell(randgen(), randgen());
+	}
+	return lboard;
+}
+
+Board makeLargeAdjacentBoard() {
+	Board lboard;
+	std::mt19937 randgen(0);
+	int j = 0;
+	for (int i = 0; i < 4000000; i++) {
+		if (i == 1000000 || i == 2000000 || i == 3000000) {
+			j++;
+		}
+		lboard.addLivecell(i, j);
 	}
 	return lboard;
 }

@@ -3,7 +3,8 @@
 
 Board makeSample1();
 Board makeSample2();
-Board makeLargeBoard();
+Board makeLargeRandomBoard();
+Board makeLargeAdjacentBoard();
 void makeLargeBinaryFile();
 std::string readBinaryBoard(std::istream& in);
 std::string encode(const std::vector<int64_t>& expected);
