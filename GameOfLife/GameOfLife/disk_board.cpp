@@ -285,27 +285,6 @@ public:
 /* Our data (livecells) is a sorted binary file of the format: x, length of y values, y values
  */
 DiskBoard DiskBoard::nextIteration(unique_ptr<iostream> output) {
-	//std::vector<ColumnBuffer> buffers;
-
-	//int64_t pos = 0;
-
-	///* Read in a 5x5 area at a time
-	// * Make 5 column buffers with <= 5 y-values using data stream 
-	// */
-	//for (int i = 0; i < 5; ++i) {
-	//	ColumnBuffer cb;
-	//	if (!readBuffer(cb, pos)) {
-	//		break;
-	//	}
-
-	//	buffers.push_back(cb);
-	//	pos = cb.getNextStartPos();
-	//}
-
-	//int64_t currentCol = buffers.front().x;
-
-	//// Get the minimum possible x value of the next column to check
-	//int64_t mNextCol = std::numeric_limits<int64_t>::min();
 
 	BinaryBoardWriter writer(*output);
 	BoardBuffer buffer(*livecells);
@@ -329,41 +308,3 @@ void processCol(int64_t col, BoardBuffer reader, BinaryBoardWriter writer) {
 		}
 	}
 }
-	
-//bool DiskBoard::readBuffer(ColumnBuffer& cb, int64_t pos) {
-//	livecells->seekg(pos);
-//	cb.startPos = pos;
-//	int64_t x;
-//	livecells->read(reinterpret_cast<char*> (&x), sizeof(x));
-//	if (livecells->eof()) {
-//		return false;
-//	}
-//	cb.x = x;
-//
-//	int64_t len;
-//	livecells->read(reinterpret_cast<char*> (&len), sizeof(len));
-//	if (livecells->eof()) {
-//		return false;
-//	}
-//	cb.len = len;
-//
-//	cb.yPos = livecells->tellg();
-//	for (int i = 0; i < 5 && i < len; ++i) {
-//		int64_t y;
-//		livecells->read(reinterpret_cast<char*> (&y), sizeof(y));
-//		if (livecells->eof()) {
-//			return false;
-//		}
-//		cb.bufferedVals.push_back(y);
-//	}
-//
-//	return true;
-//}
-
-
-//DiskBoard::ColumnBuffer::ColumnBuffer() : x(0), startPos(0), len(0), yPos(0) {
-//}
-//
-//int64_t DiskBoard::ColumnBuffer::getNextStartPos() {
-//	return startPos + (sizeof(int64_t)) * (2 + len);
-//}
