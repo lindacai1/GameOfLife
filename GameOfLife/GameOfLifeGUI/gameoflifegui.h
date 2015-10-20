@@ -22,6 +22,7 @@ private:
 	Board board;
 	QImage newBoardImage();
 	QTimer *timer;
+	int delay;
 	void updateUI();
 	void setPixel(int x, int y, int offset = pixelSize);
 

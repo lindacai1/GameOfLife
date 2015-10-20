@@ -20,6 +20,7 @@ GameOfLifeGUI::GameOfLifeGUI(QWidget *parent)
 
 	connect(ui.label, SIGNAL(clicked()), this, SLOT(on_label_clicked()));
 	timer = NULL;
+	delay = 150;
 
 }
 
@@ -40,7 +41,7 @@ void GameOfLifeGUI::on_startButton_clicked(bool x) {
 	if (!timer) {
 		timer = new QTimer(this);
 		connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-		timer->start(500);
+		timer->start(delay);
 	}
 	
 	updateUI();
@@ -77,7 +78,7 @@ void GameOfLifeGUI::on_label_clicked() {
 	QPoint p = ui.label->mapFromGlobal(QCursor::pos());
 	int x = p.x() / pixelSize;
 	int y = p.y() / pixelSize;
-	ui.startButton->setText(QString("%1, %2").arg(x).arg(y));
+	ui.coordLabel->setText(QString("%1, %2").arg(x).arg(y));
 	board.addLivecell((int64_t)x, (int64_t)y);
 	setPixel(x, y);
 	updateUI();

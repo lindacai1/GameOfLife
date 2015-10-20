@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -33,6 +34,7 @@ public:
     CQLabel *label;
     QPushButton *nextButton;
     QPushButton *randBoardButton;
+    QLabel *coordLabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -59,6 +61,9 @@ public:
         randBoardButton = new QPushButton(centralWidget);
         randBoardButton->setObjectName(QStringLiteral("randBoardButton"));
         randBoardButton->setGeometry(QRect(350, 40, 101, 23));
+        coordLabel = new QLabel(centralWidget);
+        coordLabel->setObjectName(QStringLiteral("coordLabel"));
+        coordLabel->setGeometry(QRect(290, 10, 47, 13));
         GameOfLifeGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(GameOfLifeGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -89,6 +94,7 @@ public:
         label->setText(QString());
         nextButton->setText(QApplication::translate("GameOfLifeGUIClass", "Next Iteration", 0));
         randBoardButton->setText(QApplication::translate("GameOfLifeGUIClass", "Random Board", 0));
+        coordLabel->setText(QApplication::translate("GameOfLifeGUIClass", "X, Y", 0));
     } // retranslateUi
 
 };
