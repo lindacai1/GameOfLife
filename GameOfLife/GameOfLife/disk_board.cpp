@@ -22,15 +22,16 @@ struct ColumnInfo {
 	}
 
 	void setFromStream(istream& input, int64_t pos) {
+		input.clear();
 		input.seekg(pos);
 		startPos = pos;
 		input.read(reinterpret_cast<char*> (&x), sizeof(x));
-		if (input.eof()) {
+		if (!input) {
 			isValid = false;
 			return;
 		}
 		input.read(reinterpret_cast<char*> (&len), sizeof(len));
-		if (input.eof()) {
+		if (!input) {
 			isValid = false;
 			return;
 		}
@@ -54,7 +55,9 @@ public:
 			if (toLoad == ci.len) {
 				return;
 			}
+			input.clear();
 			input.seekg(ci.getOffset(toLoad));
+			++toLoad;
 			int64_t read;
 			if (input.read(reinterpret_cast<char*>(&read), sizeof(read))) {
 				yValues.push_back(read);
@@ -88,6 +91,7 @@ struct RowPosition {
 
 	RowPosition(ColumnInfo ci, istream& input) : y(0), index(0), ci(ci) {
 		if (ci.len > 0) {
+			input.clear();
 			input.seekg(ci.getOffset(0));
 			input.read(reinterpret_cast<char*>(&y), sizeof(y));
 		}
@@ -123,6 +127,7 @@ class RowIterator {
 		auto& pos = positions[index];
 		++pos.index;
 		if (pos.index < pos.ci.len) {
+			input.clear();
 			input.seekg(pos.ci.getOffset(pos.index));
 			input.read(reinterpret_cast<char*>(&pos.y), sizeof(pos.y));
 		}
@@ -219,6 +224,12 @@ public:
 		return false;
 	}
 
+	void loadY(int64_t y) {
+		for (auto& buf : buffer) {
+			buf.loadY(input, y);
+		}
+	}
+
 private:
 	istream& input;
 	std::vector<ColumnBuffer> buffer; // Unless the board is empty, has >= 1 entry
@@ -296,12 +307,38 @@ DiskBoard DiskBoard::nextIteration(unique_ptr<iostream> output) {
 	return DiskBoard(std::move(output));
 }
 
-void processCol(int64_t col, BoardBuffer reader, BinaryBoardWriter writer) {
+bool nextItAlive(int64_t x, int64_t y, BoardBuffer& reader) {
+	int numAlive = 0;
+	for (int64_t x1 = x - 1; x1 <= x + 1; ++x1) {
+		for (int64_t y1 = y - 1; y1 <= y + 1; ++y1) {
+			if (x1 == x && y1 == y) {
+				continue;
+			}
+
+			if (reader.checkAlive(x1, y1)) {
+				++numAlive;
+			}
+		}
+	}
+
+	if (numAlive == 3) {
+		return true;
+	}
+
+	if (numAlive == 2 && reader.checkAlive(x, y)) {
+		return true;
+	}
+
+	return false;
+}
+
+void DiskBoard::processCol(int64_t col, BoardBuffer& reader, BinaryBoardWriter& writer) {
 	reader.setCheckedCol(col);
 	RowIterator rowIter = reader.getRowsForColumn(col);
 	int64_t row;
 	while (rowIter.next_y(row)) {
-		if (reader.checkAlive(col, row)) {
+		reader.loadY(row);
+		if (nextItAlive(col, row, reader)) {
 			writer.add(col, row);
 		}
 	}

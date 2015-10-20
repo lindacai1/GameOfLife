@@ -25,6 +25,7 @@ void testBlinker() {
 	board2.addLivecell(0, 1);
 	board2.addLivecell(1, 1);
 	assert(board1.nextIteration() == board2, "testBlinker - next iteration != expected board");
+	assert(board2.nextIteration() == board1, "testBlinker - next iteration != expected board");
 }
 
 void testMiddle1() {
@@ -110,7 +111,7 @@ void testOutput1() {
 
 void testBinaryBoardWrite1() {
 	{
-		std::ofstream output("IOFiles/binaryBoard1.bin", std::ofstream::binary);
+		std::ofstream output("IOFiles/binaryBoard.bin", std::ofstream::binary);
 		BinaryBoardWriter bbw(output);
 		bbw.add(0, 1);
 		bbw.add(0, 2);
@@ -118,7 +119,7 @@ void testBinaryBoardWrite1() {
 		bbw.add(1, 1); 
 	}
 
-	std::ifstream input("IOFiles/binaryBoard1.bin", std::ifstream::binary);
+	std::ifstream input("IOFiles/binaryBoard.bin", std::ifstream::binary);
 	std::string sIn = readBinaryBoard(input);
 	std::vector<int64_t> v = {0, 3, 1, 2, 3, 1, 1, 1};
 	std::string sExpected = encode(v);
@@ -128,12 +129,12 @@ void testBinaryBoardWrite1() {
 
 void testBinaryBoardWrite2() {
 	{
-		std::ofstream output("IOFiles/binaryBoard2.bin", std::ofstream::binary);
+		std::ofstream output("IOFiles/binaryBoard.bin", std::ofstream::binary);
 		BinaryBoardWriter bbw(output);
 		bbw.add(0, 1);
 	}
 
-	std::ifstream input("IOFiles/binaryBoard2.bin", std::ifstream::binary);
+	std::ifstream input("IOFiles/binaryBoard.bin", std::ifstream::binary);
 	std::string sIn = readBinaryBoard(input);
 	std::vector<int64_t> v = { 0, 1, 1 };
 	std::string sExpected = encode(v);
@@ -142,11 +143,12 @@ void testBinaryBoardWrite2() {
 }
 
 void testBinaryBoardWrite3() {
+	// Empty board
 	{
-		std::ofstream output("IOFiles/binaryBoard3.bin", std::ofstream::binary);
+		std::ofstream output("IOFiles/binaryBoard.bin", std::ofstream::binary);
 	}
 
-	std::ifstream input("IOFiles/binaryBoard3.bin", std::ifstream::binary);
+	std::ifstream input("IOFiles/binaryBoard.bin", std::ifstream::binary);
 	std::string sIn = readBinaryBoard(input);
 	std::vector<int64_t> v;
 	std::string sExpected = encode(v);
@@ -155,9 +157,6 @@ void testBinaryBoardWrite3() {
 }
 
 void testDiskAlgorithm1() {
-	int64_t imin = std::numeric_limits<int64_t>::min();
-	int64_t imax = std::numeric_limits<int64_t>::max();
-	
 	{
 		std::ofstream output("IOFiles/diskBoardIn1.bin", std::ofstream::binary);
 		BinaryBoardWriter bbw(output);
@@ -170,19 +169,76 @@ void testDiskAlgorithm1() {
 	DiskBoard db(std::move(s));
 
 	{
-		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut1.bin", std::fstream::binary);
+		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut1.bin", std::fstream::binary | std::ifstream::in | std::ifstream::out | std::ifstream::trunc);
 		db.nextIteration(std::move(o));
 	}
 
 	std::ifstream input("IOFiles/diskBoardOut1.bin", std::ifstream::binary);
 	std::string sIn = readBinaryBoard(input);
-	std::vector<int64_t> v = { -1, 1, 2, 0, 3, 1, 2, 3, 1, 1, 1 };
+	// Expected values for next iteration
+	std::vector<int64_t> v = { -1, 1, 2, 0, 2, 1, 2, 1, 1, 1 };
 	std::string sExpected = encode(v);
 
 	assert(sIn == sExpected, "testDiskAlgorithm1");
-
-
 }
+
+void testDiskAlgorithm2() {
+	{
+		std::ofstream output("IOFiles/diskBoardIn.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(100, 100);
+		bbw.add(100, 101);
+		bbw.add(100, 102);
+	}
+	auto s = std::make_unique<std::ifstream>("IOFiles/diskBoardIn.bin", std::ifstream::binary);
+	DiskBoard db(std::move(s));
+
+	{
+		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut.bin", std::fstream::binary | std::ifstream::in | std::ifstream::out | std::ifstream::trunc);
+		db.nextIteration(std::move(o));
+	}
+
+	std::ifstream input("IOFiles/diskBoardOut.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	// Expected values for next iteration
+	std::vector<int64_t> v = { 99, 1, 101, 100, 1, 101, 101, 1, 101 };
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testDiskAlgorithm2");
+}
+
+void testDiskAlgorithm3() {
+	{
+		std::ofstream output("IOFiles/diskBoardIn.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(-100, 100);
+		bbw.add(-100, 101);
+		bbw.add(-100, 102);
+		bbw.add(-100, 103);
+		bbw.add(-100, 104);
+		bbw.add(-100, 105);
+	}
+	auto s = std::make_unique<std::ifstream>("IOFiles/diskBoardIn.bin", std::ifstream::binary);
+	DiskBoard db(std::move(s));
+
+	{
+		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut.bin", std::fstream::binary | std::ifstream::in | std::ifstream::out | std::ifstream::trunc);
+		db.nextIteration(std::move(o));
+	}
+
+	std::ifstream input("IOFiles/diskBoardOut.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	// Expected values for next iteration
+	std::vector<int64_t> v = { 
+		-101, 4, 101, 102, 103, 104, 
+		-100, 4, 101, 102, 103, 104, 
+		-99, 4, 101, 102, 103, 104 
+	};
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testDiskAlgorithm3");
+}
+
 
 void benchmarkParallel(Board& board) {
 	std::string s = "Next iteration using OpenMP... ";
@@ -223,7 +279,10 @@ void runAllTests() {
 	testBinaryBoardWrite1();
 	testBinaryBoardWrite2();
 	testBinaryBoardWrite3();
-	//testDiskAlgorithm1();
+	testDiskAlgorithm1();
+	testDiskAlgorithm2();
+	testDiskAlgorithm3();
+
 }
 
 void runAllBenchmarks() {

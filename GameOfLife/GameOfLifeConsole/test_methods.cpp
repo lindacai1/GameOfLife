@@ -54,16 +54,6 @@ Board makeLargeAdjacentBoard() {
 	return lboard;
 }
 
-void makeLargeBinaryFile() {
-	std::mt19937 randgen(0);
-	std::ofstream output("IOFiles/largeInput1.bin", std::ofstream::binary);
-	BinaryBoardWriter bbw(output);
-	for (int i = 0; i < 1000000; i++) {
-		bbw.add(randgen(), randgen());
-	}
-	output.close();
-}
-
 std::string readBinaryBoard(std::istream& in) {
 	char c;
 	std::string s;

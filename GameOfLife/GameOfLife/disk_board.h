@@ -16,5 +16,5 @@ public:
 private:
 	std::unique_ptr<std::istream> livecells;
 	bool readBuffer(ColumnBuffer& cb, int64_t pos);
-	void processCol(int64_t col, BoardBuffer& reader, BinaryBoardWriter writer);
+	void processCol(int64_t col, BoardBuffer& reader, BinaryBoardWriter& writer);
 };
