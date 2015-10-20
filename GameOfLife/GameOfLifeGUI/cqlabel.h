@@ -14,6 +14,8 @@ public:
 
 protected slots:
 	void mousePressEvent(QMouseEvent *ev);
+	void mouseReleaseEvent(QMouseEvent * ev);
+	void mouseMoveEvent(QMouseEvent * ev);
 
 signals:
 	void clicked(QPoint pos);

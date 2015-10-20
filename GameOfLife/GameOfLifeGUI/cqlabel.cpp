@@ -9,3 +9,10 @@ void CQLabel::mousePressEvent(QMouseEvent *ev) {
 	this->y = ev->y();
 	emit clicked(ev->pos());
 }
+
+void CQLabel::mouseReleaseEvent(QMouseEvent * ev) {
+
+}
+void CQLabel::mouseMoveEvent(QMouseEvent * ev) {
+
+}

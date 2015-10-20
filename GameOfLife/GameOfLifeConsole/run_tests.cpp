@@ -159,16 +159,28 @@ void testDiskAlgorithm1() {
 	int64_t imax = std::numeric_limits<int64_t>::max();
 	
 	{
-		std::ofstream output("IOFiles/binaryBoard4.bin", std::ofstream::binary);
+		std::ofstream output("IOFiles/diskBoardIn1.bin", std::ofstream::binary);
 		BinaryBoardWriter bbw(output);
 		bbw.add(0, 1);
 		bbw.add(0, 2);
 		bbw.add(0, 3);
 		bbw.add(1, 1);
 	}
-	/*std::ifstream input("IOFiles/binaryBoard4.bin", std::ifstream::binary);*/
-	//auto& s = std::make_unique<std::istream>("IOFiles/binaryBoard4.bin", std::istream::binary);
-	//DiskBoard db(s);
+	auto s = std::make_unique<std::ifstream>("IOFiles/diskBoardIn1.bin", std::ifstream::binary);
+	DiskBoard db(std::move(s));
+
+	{
+		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut1.bin", std::fstream::binary);
+		db.nextIteration(std::move(o));
+	}
+
+	std::ifstream input("IOFiles/diskBoardOut1.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	std::vector<int64_t> v = { -1, 1, 2, 0, 3, 1, 2, 3, 1, 1, 1 };
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testDiskAlgorithm1");
+
 
 }
 
