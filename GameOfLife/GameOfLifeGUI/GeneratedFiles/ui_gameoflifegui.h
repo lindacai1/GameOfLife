@@ -14,13 +14,13 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
+#include <cqlabel.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -30,7 +30,9 @@ public:
     QWidget *centralWidget;
     QPushButton *startButton;
     QPushButton *stopButton;
-    QLabel *label;
+    CQLabel *label;
+    QPushButton *nextButton;
+    QPushButton *randBoardButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -48,9 +50,15 @@ public:
         stopButton = new QPushButton(centralWidget);
         stopButton->setObjectName(QStringLiteral("stopButton"));
         stopButton->setGeometry(QRect(480, 40, 75, 23));
-        label = new QLabel(centralWidget);
+        label = new CQLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(70, 80, 512, 512));
+        nextButton = new QPushButton(centralWidget);
+        nextButton->setObjectName(QStringLiteral("nextButton"));
+        nextButton->setGeometry(QRect(190, 40, 151, 23));
+        randBoardButton = new QPushButton(centralWidget);
+        randBoardButton->setObjectName(QStringLiteral("randBoardButton"));
+        randBoardButton->setGeometry(QRect(350, 40, 101, 23));
         GameOfLifeGUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(GameOfLifeGUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -67,6 +75,8 @@ public:
         QObject::connect(startButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_startButton_clicked()));
         QObject::connect(stopButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_stopButton_clicked()));
         QObject::connect(label, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_label_clicked()));
+        QObject::connect(nextButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_nextButton_clicked()));
+        QObject::connect(randBoardButton, SIGNAL(clicked()), GameOfLifeGUIClass, SLOT(on_randBoardButton_clicked()));
 
         QMetaObject::connectSlotsByName(GameOfLifeGUIClass);
     } // setupUi
@@ -77,6 +87,8 @@ public:
         startButton->setText(QApplication::translate("GameOfLifeGUIClass", "Start", 0));
         stopButton->setText(QApplication::translate("GameOfLifeGUIClass", "Stop", 0));
         label->setText(QString());
+        nextButton->setText(QApplication::translate("GameOfLifeGUIClass", "Next Iteration", 0));
+        randBoardButton->setText(QApplication::translate("GameOfLifeGUIClass", "Random Board", 0));
     } // retranslateUi
 
 };

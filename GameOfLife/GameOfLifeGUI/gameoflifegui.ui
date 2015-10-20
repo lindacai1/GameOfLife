@@ -40,7 +40,7 @@
      <string>Stop</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="CQLabel" name="label">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -51,6 +51,32 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextButton">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>40</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next Iteration</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="randBoardButton">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>40</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Random Board</string>
     </property>
    </widget>
   </widget>
@@ -75,6 +101,13 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CQLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">cqlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="gameoflifegui.qrc"/>
  </resources>
@@ -127,10 +160,45 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>nextButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GameOfLifeGUIClass</receiver>
+   <slot>on_nextButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>312</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>305</x>
+     <y>-10</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>randBoardButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GameOfLifeGUIClass</receiver>
+   <slot>on_randBoardButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>383</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>-6</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_startButton_clicked()</slot>
   <slot>on_stopButton_clicked()</slot>
   <slot>on_label_clicked()</slot>
+  <slot>on_pushCanvas_clicked()</slot>
+  <slot>on_nextButton_clicked()</slot>
+  <slot>on_randBoardButton_clicked()</slot>
  </slots>
 </ui>

@@ -28,6 +28,20 @@ void testBlinker() {
 	assert(board2.nextIteration() == board1, "testBlinker - next iteration != expected board");
 }
 
+void testBlinker1() {
+	Board board1;
+	board1.addLivecell(10, 20);
+	board1.addLivecell(10, 21);
+	board1.addLivecell(10, 22);
+
+	Board board2;
+	board2.addLivecell(9, 21);
+	board2.addLivecell(10, 21);
+	board2.addLivecell(11, 21);
+	assert(board1.nextIteration() == board2, "testBlinker - next iteration != expected board");
+	assert(board2.nextIteration() == board1, "testBlinker - next iteration != expected board");
+}
+
 void testMiddle1() {
 	Board board1;
 	board1.addLivecell(0, 0);
@@ -239,6 +253,44 @@ void testDiskAlgorithm3() {
 	assert(sIn == sExpected, "testDiskAlgorithm3");
 }
 
+void testDiskAlgorithm4() {
+	{
+		std::ofstream output("IOFiles/diskBoardIn.bin", std::ofstream::binary);
+		BinaryBoardWriter bbw(output);
+		bbw.add(-2000000000001, -2000000000001);
+		bbw.add(-2000000000001, -2000000000000);
+		bbw.add(-2000000000000, -2000000000000);
+		bbw.add(0, 1);
+		bbw.add(1, 2);
+		bbw.add(2, 0);
+		bbw.add(2, 1);
+		bbw.add(2, 2);
+
+
+	}
+	auto s = std::make_unique<std::ifstream>("IOFiles/diskBoardIn.bin", std::ifstream::binary);
+	DiskBoard db(std::move(s));
+
+	{
+		auto o = std::make_unique<std::fstream>("IOFiles/diskBoardOut.bin", std::fstream::binary | std::ifstream::in | std::ifstream::out | std::ifstream::trunc);
+		db.nextIteration(std::move(o));
+	}
+
+	std::ifstream input("IOFiles/diskBoardOut.bin", std::ifstream::binary);
+	std::string sIn = readBinaryBoard(input);
+	// Expected values for next iteration
+	std::vector<int64_t> v = {
+		-2000000000001, 2, -2000000000001, -2000000000000,
+		-2000000000000, 2, -2000000000001, -2000000000000,
+		1, 2, 0, 2,
+		2, 2, 1, 2,
+		3, 1, 1
+	};
+
+	std::string sExpected = encode(v);
+
+	assert(sIn == sExpected, "testDiskAlgorithm4");
+}
 
 void benchmarkParallel(Board& board) {
 	std::string s = "Next iteration using OpenMP... ";
@@ -270,6 +322,7 @@ void benchmarkSerial(Board& board) {
 
 void runAllTests() {
 	testBlinker();
+	testBlinker1();
 	testMiddle1();
 	testCorners1();
 	testCorners2();
@@ -282,6 +335,7 @@ void runAllTests() {
 	testDiskAlgorithm1();
 	testDiskAlgorithm2();
 	testDiskAlgorithm3();
+	testDiskAlgorithm4();
 
 }
 
