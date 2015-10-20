@@ -54,6 +54,10 @@ Board makeLargeAdjacentBoard() {
 	return lboard;
 }
 
+
+/* Converts a binary input stream/file to a string
+ * For testing our DiskBoard and BinaryBoardWriter classes
+ */
 std::string readBinaryBoard(std::istream& in) {
 	char c;
 	std::string s;

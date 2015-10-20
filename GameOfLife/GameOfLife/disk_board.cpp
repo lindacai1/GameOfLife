@@ -4,6 +4,16 @@ using std::unique_ptr;
 using std::istream;
 using std::iostream;
 
+/* DiskBoard used is to compute the next generation of cells in Game of Life
+ * Input: Binary stream of cells in the format x : # of y values : y values (each value is 8 bytes)
+ * Output: Binary stream of cells in the same format
+ * Algorithm: Read in at least 5 columns at a time (as column buffers) and for each cell (x, y) consider it's
+ * neighbor columns x - 1, x + 1. It considers the smallest column first and uses RowIterator to check 
+ * each necessary adjacent y value (using RowIterator) to determine whether the cells in the column 
+ * should be alive in the next iteration. Entire columns will be processed in-order and output in-order to 
+ * guarantee the outputted binary stream will be ordered and valid.
+ */
+
 struct ColumnInfo {
 	int64_t x;
 	int64_t startPos;
@@ -13,14 +23,17 @@ struct ColumnInfo {
 	ColumnInfo() : x(0), startPos(0), len(0), isValid(false) {
 	}
 
+	// Get position of next column
 	int64_t getNextPos() {
 		return startPos + (sizeof(int64_t)) * (2 + len);
 	}
 
+	// Get position of next y-value using offset
 	int64_t getOffset(int64_t index) {
 		return startPos + (sizeof(int64_t)) * (2 + index);
 	}
 
+	// Set values using stream and position in stream
 	void setFromStream(istream& input, int64_t pos) {
 		input.clear();
 		input.seekg(pos);
@@ -307,6 +320,7 @@ DiskBoard DiskBoard::nextIteration(unique_ptr<iostream> output) {
 	return DiskBoard(std::move(output));
 }
 
+// Game of Life cell logic
 bool nextItAlive(int64_t x, int64_t y, BoardBuffer& reader) {
 	int numAlive = 0;
 	for (int64_t x1 = x - 1; x1 <= x + 1; ++x1) {
@@ -332,6 +346,7 @@ bool nextItAlive(int64_t x, int64_t y, BoardBuffer& reader) {
 	return false;
 }
 
+// Process a column (x) : look at neighbors of row (y) and check whether cells should be alive
 void DiskBoard::processCol(int64_t col, BoardBuffer& reader, BinaryBoardWriter& writer) {
 	reader.setCheckedCol(col);
 	RowIterator rowIter = reader.getRowsForColumn(col);

@@ -123,6 +123,7 @@ void testOutput1() {
 	assert(board1 == board2, "testOutput1 - output board != expected board");
 }
 
+// Test functionality of BinaryBoardWriter
 void testBinaryBoardWrite1() {
 	{
 		std::ofstream output("IOFiles/binaryBoard.bin", std::ofstream::binary);
@@ -174,6 +175,7 @@ void testDiskAlgorithm1() {
 	{
 		std::ofstream output("IOFiles/diskBoardIn1.bin", std::ofstream::binary);
 		BinaryBoardWriter bbw(output);
+		// Cells must be written in column (x), row (y) order in order for DiskBoard to properly process them
 		bbw.add(0, 1);
 		bbw.add(0, 2);
 		bbw.add(0, 3);

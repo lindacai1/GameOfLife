@@ -12,7 +12,7 @@ BinaryBoardWriter::~BinaryBoardWriter() {
 	finishSegment();
 }
 
-// add must be called with (x, y) pairs in-order (row, column)
+// Add must be called with (x, y) pairs in-order (row, column) in order be encoded correctly
 void BinaryBoardWriter::add(int64_t x, int64_t y) {
 	if (isStart) {
 		startSegment(x);
