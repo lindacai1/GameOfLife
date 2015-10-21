@@ -8,9 +8,10 @@ using std::iostream;
  * Input: Binary stream of cells in the format x : # of y values : y values (each value is 8 bytes)
  * Output: Binary stream of cells in the same format
  * Algorithm: Read in at least 5 columns at a time (as column buffers) and for each cell (x, y) consider it's
- * neighbor columns x - 1, x + 1. It considers the smallest column first and uses RowIterator to check 
- * each necessary adjacent y value (using RowIterator) to determine whether the cells in the column 
- * should be alive in the next iteration. Entire columns will be processed in-order and output in-order to 
+ * neighbor columns x - 1, x + 1. It considers the smallest column first and uses RowIterator to tell what y
+ * values check. The boardbuffer holds on to enough column headers to evaluate the current column.
+ * We use processCol to determine whether the cells in the column should be alive in the next iteration.
+ * Entire columns will be processed in-order and output in-order to 
  * guarantee the outputted binary stream will be ordered and valid.
  */
 
@@ -52,7 +53,7 @@ struct ColumnInfo {
 	}
 };
 
-
+// Holds on to a number of y values for each column
 class ColumnBuffer {
 public:
 	ColumnInfo ci;
@@ -111,6 +112,7 @@ struct RowPosition {
 	}
 };
 
+// Tells what row to look at next for a column
 class RowIterator {
 	std::vector<RowPosition> positions;
 	istream& input;
@@ -248,6 +250,7 @@ private:
 	std::vector<ColumnBuffer> buffer; // Unless the board is empty, has >= 1 entry
 };
 
+// Tells us which columns we need to examine
 class ColumnIterator {
 	ColumnInfo ci;
 	istream& input;
